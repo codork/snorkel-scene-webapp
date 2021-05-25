@@ -1,6 +1,6 @@
 import os
 #from flask_opencv_streamer.streamer import Streamer
-import cv2
+#import cv2
 from app import app
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory, Response, send_file

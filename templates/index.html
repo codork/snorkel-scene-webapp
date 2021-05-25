@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Humans AI Labeller</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../static/assets/img/siteIcon.png" rel="icon">
+  <!-- <link href="../static/assets/img/labelIcon.png" rel="labelIcon"> -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../static/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-phone d-flex align-items-center"><span>+91 77777 77777</span></i>
+        <i class="bi bi-pin-angle d-flex align-items-center ms-4"><span> Stanford</span></i>
+      </div>
+
+      <div class="languages d-none d-md-flex align-items-center">
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-cente" style="padding-top: 0px;">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+      <h1 class="logo me-auto me-lg-0"><a href="index.html">Humans AI Data Labeller</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#why-us">Why Us</a></li>
+          <li><a class="nav-link scrollto" href="#chefs">Team</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Label</a>
+
+    </div>
+  </header><!-- End Header -->
+
+ <!-- ======= Label Section ======= -->
+ <div class="container" data-aos="fade-up" id="book-a-table">
+  <div class="section-title" style="padding-top:94px; height: 2px;">
+    <!-- <h2>Label</h2> -->
+    <h3 style="color: #cda45e; font-family: Playfair Display, serif;">Label Image</h3>
+  </div>
+</div>
+<section class="book-a-table" style="padding-top:0px; height: 100vh;">
+  <div class="row" data-aos="fade-up" style="margin:auto;padding:10px;">
+
+      <!-- START OF--------------SINGLE IMAGE PORTION--------- -->
+    <div class="col-sm-6" style="padding-left:70px; padding-top: 10px; border-radius:25px; border: 2px solid #cda45e;">
+      <p>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <!-- {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %} -->
+        {% endif %}
+        {% endwith %}
+      </p>
+      <h3 style="color: #cda45e;">Label single image</h3>
+      {% if filename %}
+      <div>
+        <img src="{{ url_for('display_image', filename=filename) }}" style="width:250px;height:200px;">
+      </div>
+      {% endif %}
+
+      {% if result %}
+        <p style="color: #cda45e;">Predicted label: {{result}}</p>
+      {% endif %}
+
+      <div>
+        <form method="post" action="/label-single" enctype="multipart/form-data">
+
+          <dl>
+            <p>
+              <input type="file" name="file" autocomplete="off" required>
+            </p>
+          </dl>
+
+          <p>
+              <!-- <input type="submit" value="Label Image"> -->
+          <button type="submit" class="btn btn-primary btn-block btn-large">Label single Image</button>
+          </p>
+
+        </form>
+      </div>
+
+    </div>
+      <!-- END OF--------------SINGLE IMAGE PORTION--------- -->
+
+      <!-- START OF--------------MULTIPLE IMAGE PORTION--------- -->
+    <div class="col-sm-6" style="padding-left: 70px; padding-top: 20px; padding-bottom: 20px;border-radius:25px; border:2px solid #cda45e;">
+        <div>
+          <h3 style="color: #cda45e;">Select multiple images and download labelled dataset</h3>
+          <form method="post" action="/label-multiple" enctype="multipart/form-data">
+            <dl>
+              <p>
+                <input type="file" name="files[]" multiple="true" autocomplete="off" required>
+              </p>
+            </dl>
+            <p>
+              <button type="submit" class="btn btn-primary btn-block btn-large">Label Multiple Images</button>
+            </p>
+          </form>
+
+      </div>
+
+      <!-- For downloading directory -->
+        <div>
+
+          <form action="/download" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-primary btn-block btn-large">Download Labelled Dataset</button>
+          </form>
+
+        </div>
+        <!-- END OF--------------MULTIPLE IMAGE PORTION--------- -->
+    </div>
+  </div>
+</section>
+
+
+  <main id="main">
+
+     <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1>Welcome to <span>Data Labeller</span></h1>
+          <h2>Data labelling made easy!</h2>
+
+          <div class="btns">
+            <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Label Images</a>
+          </div>
+        </div>
+        <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in" data-aos-delay="200">
+          <a href="https://www.youtube.com/watch?v=lMwX-n_1NXs" class="glightbox play-btn"></a>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+           <h2>About Us</h2>
+          <p>What do we do</p>
+        </div>
+
+        <div class="row" style="padding-top: 5px;">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+            <div class="about-img">
+              <img src="../static/assets/img/About.jpg" style="size: 350px 450px; margin-left: 130px;" alt="">
+            </div>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+            <h3>LABELLING INTERFACE</h3>
+            <p class="fst-italic">
+              Research Project sponsored by Humans AI
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> This is an RnD effort sponsored by Humans AI, in the field of Weak Supervision</li>
+              <li><i class="bi bi-check-circle"></i> Designed by a group of 3 Final Year Engineering students- Poorva, Ovee, Pranjal; as a part of their Research Project.</li>
+              <li><i class="bi bi-check-circle"></i> This interface for data labelling, makes the data labelling job easy, interesting and hence less error-prone</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Why This</h2>
+          <p>Why Choose Our Solution</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4">
+            <div class="box" data-aos="zoom-in" data-aos-delay="100">
+              <span>01</span>
+              <h4>Minimal Train Data</h4>
+              <p>The ML data labeling model is built on as minimal as 200 train images as compared to millions of images the are getting trained conventionally.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="box" data-aos="zoom-in" data-aos-delay="200">
+              <span>02</span>
+              <h4>Accuracy</h4>
+              <p>The model gives 92% accuracy as compared to traditional approaches which achieve around 90% after training on gigantic datasets.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="box" data-aos="zoom-in" data-aos-delay="300">
+              <span>03</span>
+              <h4> Social Good</h4>
+              <p>This interface will make the job of slum women in India (Humans AI provides them employment) less time consuming, less error-prone and yield better results</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+
+    <!-- ======= Teams Section ======= -->
+    <section id="chefs" class="chefs">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Team</h2>
+          <p>Our Team</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="member" data-aos="zoom-in" data-aos-delay="100">
+              <img src="../static/assets/img/PoorvaPhoto.jpg" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Poorva Bhalerao</h4>
+                  <span>4307</span>
+                </div>
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/poorva-b/"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="member" data-aos="zoom-in" data-aos-delay="200">
+              <img src="../static/assets/img/OveePhoto.jpeg" class="img-fluid" alt="" style="width:100%;height:300px;object-fit: cover;">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Ovee Kulkarni</h4>
+                  <span>4335</span>
+                </div>
+                <div class="social">
+                  <a href="www.linkedin.com/in/oveek"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="member" data-aos="zoom-in" data-aos-delay="300">
+              <img src="../static/assets/img/PranjalPhoto.jpeg" class="img-fluid" style="width:100%;height:300px;object-fit: cover;" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Pranjal Mahajan</h4>
+                  <span>4337</span>
+                </div>
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/pranjal-g-mahajan/"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Chefs Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact</h2>
+          <p>Contact Us</p>
+        </div>
+      </div>
+
+      <div data-aos="fade-up">
+        <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <div class="container" data-aos="fade-up">
+
+        <div class="row mt-5">
+
+          <div class="col-lg-4">
+            <div class="info">
+              <div class="address">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Location:</h4>
+                <p>A108 XYZ Street, Stanford, USA 77890</p>
+              </div>
+
+              <div class="open-hours">
+                <i class="bi bi-clock"></i>
+                <h4>Open Hours:</h4>
+                <p>
+                  Monday-Saturday:<br>
+                  11:00 AM - 2300 PM
+                </p>
+              </div>
+
+              <div class="email">
+                <i class="bi bi-envelope"></i>
+                <h4>Email:</h4>
+                <p>contactUs@humansai.com</p>
+              </div>
+
+              <div class="phone">
+                <i class="bi bi-phone"></i>
+                <h4>Call:</h4>
+                <p>+1 5589 55488 55s</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Humans AI</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/restaurantly-restaurant-template/ -->
+        Owned by <a href="https://www.linkedin.com/in/anandlalwani/">Stake Holders</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="../static/assets/vendor/aos/aos.js"></script>
+  <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="../static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../static/assets/js/main.js"></script>
+
+</body>
+
+</html>
